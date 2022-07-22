@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:MyCoffee.ViewModels"
+    BackgroundColor="White"
+    x:Class="MyCoffee.Views.CoffeEquipmentPage">
+    
+    <ContentPage.BindingContext>
+        <viewmodels:CoffeEquipmentViewModel/>
+    </ContentPage.BindingContext>
+
+   
+</ContentPage>
