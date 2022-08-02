@@ -2,13 +2,58 @@
 <ContentPage 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodels="clr-namespace:MyCoffee.ViewModels"
+    xmlns:ViewModels="clr-namespace:MyCoffee.ViewModels"
+    xmlns:Models="clr-namespace:MyCoffee.Models"
     BackgroundColor="White"
     x:Class="MyCoffee.Views.CoffeEquipmentPage">
-    
+
     <ContentPage.BindingContext>
-        <viewmodels:CoffeEquipmentViewModel/>
+        <ViewModels:CoffeEquipmentViewModel/>
     </ContentPage.BindingContext>
 
-   
+    <ListView BackgroundColor ="Transparent" ItemsSource="{Binding Coffee}"
+              HasUnevenRows="True"
+              SeparatorColor="Red"
+              SeparatorVisibility="None">
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="ViewModels:Coffee">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Favorite"/>
+                        <MenuItem Text="Delete" IsDestructive="True"/>
+                    </ViewCell.ContextActions>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="{Binding Image}"
+                                       WidthRequest="66"/>
+                                <StackLayout VerticalOptions="Center">
+                                    <Label VerticalOptions="Center"
+                                           FontSize="Large"
+                                           Text="{Binding Name}"/>
+                                    <Label VerticalOptions="Center"
+                                           FontSize="Large"
+                                           Text="{Binding Roaster}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <Label 
+                    Text="Coffee of the World"
+                    HorizontalOptions="Center"/>
+            </StackLayout>
+        </ListView.Header>
+        <ListView.Footer>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Button Text="Load More"/>
+            </StackLayout>
+        </ListView.Footer>
+    </ListView>
+
 </ContentPage>
