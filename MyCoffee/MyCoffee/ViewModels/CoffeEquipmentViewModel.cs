@@ -7,6 +7,7 @@ using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System.Threading.Tasks;
 using Command = MvvmHelpers.Commands.Command;
+using System;
 
 namespace MyCoffee.ViewModels
 {
@@ -17,44 +18,108 @@ namespace MyCoffee.ViewModels
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; set; }
         public AsyncCommand RefreshCommand { get; }
+        public AsyncCommand<Coffee> FavoriteCommand { get; }
+        public AsyncCommand<object> SelectedCommand { get; private set; }
+        public Command LoadMoreCommand { get; }
+        public Command DelayLoadMoreCommand { get; }
+        public Command ClearCommand { get; }
+
         public CoffeEquipmentViewModel()
         {
-            // IncreaseCount = new Command(OnIncrease);
-            //CallServerCommand = new AsyncCommand(CallServer);
+            Title = "Coffee Equipment";
+            Coffee = new ObservableRangeCollection<Coffee>();
             CoffeeGroups = new ObservableRangeCollection<Grouping<string, Coffee>>();
 
-            Title = "Coffee Equipment";
+            LoadMore();
 
-            var image = "https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia-cldnry.s-nbcnews.com%2Fimage%2Fupload%2Ft_nbcnews-fp-1200-630%2Cf_auto%2Cq_auto%3Abest%2Fnewscms%2F2019_33%2F2203981%2F171026-better-coffee-boost-se-329p.jpg&imgrefurl=https%3A%2F%2Fwww.nbcnews.com%2Fbetter%2Flifestyle%2Fhow-tap-health-benefits-coffee-ncna1096031&tbnid=Ca2oyrpKXFdGeM&vet=12ahUKEwjFoMHyuKj5AhVL9IUKHYkODSoQMygBegUIARDhAQ..i&docid=L4W4bO3khfL-_M&w=1200&h=630&q=coffee&ved=2ahUKEwjFoMHyuKj5AhVL9IUKHYkODSoQMygBegUIARDhAQ";
+            RefreshCommand = new AsyncCommand(Refresh);
+            FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+            SelectedCommand = new AsyncCommand<object>(Selected);
+            LoadMoreCommand = new Command(LoadMore);
+            ClearCommand = new Command(Clear);
+            DelayLoadMoreCommand = new Command(DelayLoadMore);
+
+            if (Coffee.Count >= 20)
+                return;
+
+            var image = "coffee.png";
 
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
             Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
             Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
-            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "KKH", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Red Bottle", Name = "KKH", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Bottle", Name = "new", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Huge", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "old", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Brown Bottle", Name = "new", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yellow Bottle", Name = "BB", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "NN", Image = image });
+
+            CoffeeGroups.Clear();
 
             CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
             CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
 
             RefreshCommand = new AsyncCommand(Refresh);
+            FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+        }
+        async Task Favorite(Coffee coffee)
+        {
+            if (coffee == null)
+                return;
+
+            await Application.Current.MainPage.DisplayAlert("Favorite", coffee.Name, "OK");
+
+        }
+        void LoadMore()
+        {
+            throw new NotImplementedException();
         }
 
-        public ICommand CallServerCommand { get; }
+
+
+        Coffee previouslySelected;
+        Coffee selectedCoffee;
+        public Coffee SelectedCoffee
+        {
+            get => SelectedCoffee;
+            set
+            {
+                if (value != null)
+                {
+                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
+                    previouslySelected = value;
+                    value = null;
+                }
+
+                selectedCoffee = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Func<object, Task> Selected { get; }
+        public Action<object> Clear { get; private set; }
+        public Action<object> DelayLoadMore { get; private set; }
 
         async Task Refresh()
         {
             IsBusy = true;
 
             await Task.Delay(2000);
+            Coffee.Clear();
+            LoadMore();
 
             IsBusy = false;
         }
 
+       /* void DelayLoadMore()
+        {
+            if (Coffee.Count <= 10)
+                return;
+
+            LoadMore();
+
+        }*/
         /*public ICommand IncreaseCount { get; }
 
         int count = 0;

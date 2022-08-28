@@ -6,5 +6,6 @@ namespace MyCoffee.Models
 {
     internal class Coffee
     {
+        public string Name { get; internal set; }
     }
 }
