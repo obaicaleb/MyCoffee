@@ -32,12 +32,12 @@ namespace MyCoffee.ViewModels
 
             LoadMore();
 
-            RefreshCommand = new AsyncCommand(Refresh);
-            FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
-            SelectedCommand = new AsyncCommand<object>(Selected);
+           // RefreshCommand = new AsyncCommand(Refresh);
+           // FavoriteCommand = new Command(LoadMore);
+           // SelectedCommand = new Command(LoadMore);
             LoadMoreCommand = new Command(LoadMore);
-            ClearCommand = new Command(Clear);
-            DelayLoadMoreCommand = new Command(DelayLoadMore);
+            //ClearCommand = new Command(Clear);
+            //DelayLoadMoreCommand = new Command(DelayLoadMore);
 
             if (Coffee.Count >= 20)
                 return;
@@ -73,7 +73,20 @@ namespace MyCoffee.ViewModels
         }
         void LoadMore()
         {
-            throw new NotImplementedException();
+            if (Coffee.Count >= 20)
+                return;
+
+            var image = "coffeebag.png";
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Sip of Sunshine", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Yes Plz", Name = "Potent Potable", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Blue Bottle", Name = "Kenya Kiambu Handege", Image = image });
+
+            CoffeeGroups.Clear();
+
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
         }
 
 
