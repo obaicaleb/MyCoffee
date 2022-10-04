@@ -110,9 +110,9 @@
                                     Light={StaticResource SystemGray5Dark}}"
                              Glyph="{StaticResource IconCoffee}"/>
         </Tab.Icon>
-        <ShellContent Title="Light" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="CoffeeEquipmentPage" />
-        <ShellContent Title="Medium" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="CoffeeEquipmentPage2" />
-        <ShellContent Title="Dark" ContentTemplate="{DataTemplate local:CoffeeEquipmentPage}" Route="CoffeeEquipmentPage3" />
+        <ShellContent Title="Light" ContentTemplate="{DataTemplate local:CoffeEquipmentPage}" Route="CoffeeEquipmentPage" />
+        <ShellContent Title="Medium" ContentTemplate="{DataTemplate local:CoffeEquipmentPage}" Route="CoffeeEquipmentPage2" />
+        <ShellContent Title="Dark" ContentTemplate="{DataTemplate local:CoffeEquipmentPage}" Route="CoffeeEquipmentPage3" />
     </Tab>
 
 </Shell>

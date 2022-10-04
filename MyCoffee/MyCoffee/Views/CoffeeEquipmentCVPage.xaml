@@ -4,16 +4,16 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:model="clr-namespace:MyCoffee.Shared.Models;assembly=MyCoffeeApp.Shared"
+    xmlns:model="clr-namespace:MyCoffee.Models;assembly=MyCoffee"
     xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
-    xmlns:viewmodels="clr-namespace:MyCoffee.ViewModels" 
+    xmlns:ViewModels="clr-namespace:MyCoffee.ViewModels" 
     xmlns:cells="clr-namespace:MyCoffee.Cells"
     x:Name="CoffeePage"
     BackgroundColor="{AppThemeBinding 
                     Dark={StaticResource WindowBackgroundColorDark}, 
                     Light={StaticResource WindowBackgroundColor}}">
     <ContentPage.BindingContext>
-        <viewmodels:CoffeeEquipmentViewModel />
+        <ViewModels:CoffeEquipmentViewModel />
     </ContentPage.BindingContext>
     <RefreshView
         Command="{Binding RefreshCommand}"
@@ -52,7 +52,7 @@
                             <SwipeItems>
                                 <SwipeItem
                                     BackgroundColor="Orange"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CoffeEquipmentViewModel}}, Path=FavoriteCommand}"
                                     CommandParameter="{Binding .}"
                                     Text="Favorite" />
                                 <SwipeItem

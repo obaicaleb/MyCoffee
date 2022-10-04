@@ -3,7 +3,7 @@
     x:Class="MyCoffee.Views.MyCoffeeDetailsPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:MyCoffee.Shared.Models;assembly=MyCoffeeApp.Shared"
+    xmlns:model="clr-namespace:MyCoffee.Models;assembly=MyCoffee"
     Title="{Binding Name}"
     x:DataType="model:Coffee"
     BackgroundColor="{AppThemeBinding 
