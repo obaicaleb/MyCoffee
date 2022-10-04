@@ -19,7 +19,7 @@ namespace MyCoffee.ViewModels
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; set; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand<Coffee> FavoriteCommand { get; }
-        public AsyncCommand<object> SelectedCommand { get; private set; }
+        public AsyncCommand<Coffee> SelectedCommand { get; private set; }
         public Command LoadMoreCommand { get; }
         public Command DelayLoadMoreCommand { get; }
         public Command ClearCommand { get; }
@@ -61,6 +61,8 @@ namespace MyCoffee.ViewModels
             CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
 
             RefreshCommand = new AsyncCommand(Refresh);
+            AsyncCommand<Coffee> asyncCommand = new AsyncCommand<Coffee>(Selected);
+            SelectedCommand = asyncCommand;
             FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
         }
         async Task Favorite(Coffee coffee)
@@ -88,7 +90,14 @@ namespace MyCoffee.ViewModels
             CoffeeGroups.Add(new Grouping<string, Coffee>("Blue Bottle", Coffee.Where(c => c.Roaster == "Blue Bottle")));
             CoffeeGroups.Add(new Grouping<string, Coffee>("Yes Plz", Coffee.Where(c => c.Roaster == "Yes Plz")));
         }
+        async Task Selected(Coffee coffee)
+        {
+            if (coffee == null)
+                return;
 
+            await Application.Current.MainPage.DisplayAlert("Selected", coffee.Name, "OK");
+
+        }
 
 
         Coffee previouslySelected;
@@ -96,23 +105,13 @@ namespace MyCoffee.ViewModels
         public Coffee SelectedCoffee
         {
             get => SelectedCoffee;
-            set
-            {
-                if (value != null)
-                {
-                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
-                    previouslySelected = value;
-                    value = null;
-                }
-
-                selectedCoffee = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref selectedCoffee, value); 
         }
 
-        public Func<object, Task> Selected { get; }
-        public Action<object> Clear { get; private set; }
-        public Action<object> DelayLoadMore { get; private set; }
+
+        ///public Func<object, Task> Selected { get; }
+        ///public Action<object> Clear { get; private set; }
+        ///public Action<object> DelayLoadMore { get; private set; }
 
         async Task Refresh()
         {
@@ -164,6 +163,8 @@ namespace MyCoffee.ViewModels
 
     public class Coffee
     {
+        internal object Id;
+
         public string Roaster { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }

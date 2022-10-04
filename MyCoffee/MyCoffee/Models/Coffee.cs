@@ -4,8 +4,14 @@ using System.Text;
 
 namespace MyCoffee.Models
 {
-    internal class Coffee
+    public class Coffee
     {
-        public string Name { get; internal set; }
+        /// <summary>
+        /// [PrimaryKey, AutoIncrement]
+        /// </summary>
+        public int Id { get; set; }
+        public string Roaster { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
     }
 }

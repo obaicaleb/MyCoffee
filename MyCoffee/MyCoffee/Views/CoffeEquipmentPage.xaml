@@ -13,7 +13,6 @@
     </ContentPage.BindingContext>
 
     <ListView 
-        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
         CachingStrategy="RecycleElement"
         BackgroundColor ="Transparent" 
         ItemsSource="{Binding CoffeeGroups}"
@@ -23,6 +22,7 @@
         SeparatorColor="Red"
         SeparatorVisibility="None"
         IsPullToRefreshEnabled="True"
+        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
         IsRefreshing="{Binding IsBusy, Mode=OneWay}"
         RefreshCommand="{Binding RefreshCommand}"
         RefreshControlColor="Red">
